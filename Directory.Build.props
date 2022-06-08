@@ -1,0 +1,58 @@
+<Project>
+
+  <!-- Nuget related properties.-->
+  <PropertyGroup>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Product>Sample</Product>
+    <RepositoryUrl>https://github.com/</RepositoryUrl>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <!-- allow pre-release dependencies -->
+    <NoWarn>$(NoWarn);NU5104;CA1812;CA1822;CA5394</NoWarn>
+    <DebugType>Portable</DebugType>
+    <LangVersion>Latest</LangVersion>
+    <HighEntropyVA>true</HighEntropyVA>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <Authors>Sample</Authors>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <Company>Sample</Company>
+    <Copyright>Copyright © Sample. All rights reserved.</Copyright>
+    <Deterministic>true</Deterministic>
+    <!--This will target the latest patch release of the runtime released with the current SDK.  -->
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+  </PropertyGroup>
+  <!-- Shared dependencies versions.-->
+  <PropertyGroup>
+    <RuntimePackageVersion>6.0.0</RuntimePackageVersion>
+    <AspNetPackageVersion>6.0.0</AspNetPackageVersion>
+    <HealthcareSharedPackageVersion>6.1.56</HealthcareSharedPackageVersion>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition="$(MSBuildProjectName.Contains('Test'))">
+      <PropertyGroup>
+        <IsPackable>false</IsPackable>
+        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CustomAnalysisRules.Test.ruleset</CodeAnalysisRuleSet>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <IsPackable>true</IsPackable>
+        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CustomAnalysisRules.ruleset</CodeAnalysisRuleSet>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>
